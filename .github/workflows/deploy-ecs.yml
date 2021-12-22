@@ -16,6 +16,7 @@ on:
 
 env:
   MEDCASE_GITHUB_TOKEN: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
+  SERVICE_NAME: ${{ secrets.SERVICE_NAME }}
 jobs:
   deploy:
     runs-on: ubuntu-latest
