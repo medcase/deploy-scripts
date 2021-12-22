@@ -1,4 +1,4 @@
-name: Upload
+name: Deploy
 
 on:
   workflow_call:
@@ -7,29 +7,28 @@ on:
         required: true
       AWS_SECRET_ACCESS_KEY:
         required: true
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN:
+        required: true
+      SERVICE_NAME:
+        required: true
+      REGION:
+        required: true
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      SKIP_POST_INSTALL: 1
     steps:
-      - name: Checkout 🛎️
-        uses: actions/checkout@v2
-
-      - name: Install dependencies 🔧
-        run: yarn install
-
-      - name: Build 🏗️
-        run: yarn build
+      - uses: actions/checkout@v2
+      - run: yarn install
+      - run: yarn test
+      - run: yarn build
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-west-1
+          aws-region: ${{ secrets.REGION }}
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -39,13 +38,12 @@ jobs:
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: ${{ secrets.REPO_NAME }}
           IMAGE_TAG: latest
         run: |
-          docker build --build-arg ARG_MEDCASE_GITHUB_TOKEN=$GITHUB_TOKEN -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker build --build-arg ARG_MEDCASE_GITHUB_TOKEN=$GITHUB_TOKEN -t $ECR_REGISTRY/$SERVICE_NAME:$IMAGE_TAG .
           echo "Pushing image to ECR..."
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          docker push $ECR_REGISTRY/$SERVICE_NAME:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$SERVICE_NAME:$IMAGE_TAG"
       - name: Force deployment
         run: |
-          aws ecs update-service --cluster backend --service profile --force-new-deployment
+          aws ecs update-service --cluster backend --service $SERVICE_NAME --force-new-deployment
