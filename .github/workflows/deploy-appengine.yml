@@ -7,6 +7,9 @@ on:
         required: true
       MEDCASE_GITHUB_TOKEN:
         required: true
+env:
+  MEDCASE_GITHUB_TOKEN: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
