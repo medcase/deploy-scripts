@@ -8,7 +8,7 @@ on:
       MEDCASE_GITHUB_TOKEN:
         required: true
       STAGE:
-        required: true
+        required: false
 env:
   MEDCASE_GITHUB_TOKEN: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
 
