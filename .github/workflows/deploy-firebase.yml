@@ -7,6 +7,8 @@ on:
         required: true
       MEDCASE_GITHUB_TOKEN:
         required: true
+      STAGE:
+        required: false
 env:
   MEDCASE_GITHUB_TOKEN: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
 
@@ -16,7 +18,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: yarn install
-      - run: yarn build
+      if: "${{ env.STAGE != '' }}"
+        run: yarn build:${{ env.STAGE}}
+      if: "${{ env.STAGE == '' }}"
+        run: yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.MEDCASE_GITHUB_TOKEN }}"
