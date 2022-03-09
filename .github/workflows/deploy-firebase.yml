@@ -18,7 +18,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: yarn install
-      - run: yarn build:${{ secrets.STAGE }}
+      if: "${{ env.STAGE != '' }}"
+        run: yarn build:${{ env.STAGE}}
+      if: "${{ env.STAGE == '' }}"
+        run: yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.MEDCASE_GITHUB_TOKEN }}"
