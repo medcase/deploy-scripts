@@ -13,7 +13,6 @@ on:
         type: string
 env:
   MEDCASE_GITHUB_TOKEN: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
-  PROJECT_ID: ${{ inputs.PROJECT_ID }}
 
 jobs:
   deploy:
@@ -35,6 +34,6 @@ jobs:
       - id: deploy
         uses: google-github-actions/deploy-appengine@v0
         with:
-          project_id: ${{ env.PROJECT_ID }}
+          project_id: ${{ inputs.PROJECT_ID }}
       - id: url
         run: echo "${{ steps.deploy.outputs.url }}"
