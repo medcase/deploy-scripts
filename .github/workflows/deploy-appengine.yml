@@ -7,11 +7,13 @@ on:
         required: true
       MEDCASE_GITHUB_TOKEN:
         required: true
+    inputs:
       PROJECT_ID:
         required: true
+        type: string
 env:
   MEDCASE_GITHUB_TOKEN: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
-  PROJECT_ID: ${{ secrets.PROJECT_ID }}
+  PROJECT_ID: ${{ inputs.PROJECT_ID }}
 
 jobs:
   deploy:
