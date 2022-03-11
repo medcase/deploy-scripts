@@ -9,6 +9,13 @@ on:
         required: true
       STAGE:
         required: false
+    inputs:
+      PROJECT_ID:
+        required: false
+        type: string
+      TARGET:
+        required: false
+        type: string
 env:
   MEDCASE_GITHUB_TOKEN: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
   STAGE: ${{ secrets.STAGE }}
@@ -25,7 +32,8 @@ jobs:
         if: "${{ env.STAGE == '' }}"
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: "${{ secrets.MEDCASE_GITHUB_TOKEN }}"
-          firebaseServiceAccount: "${{ secrets.GOOGLE_CLOUD_KEY }}"
+          repoToken: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.GOOGLE_CLOUD_KEY }}
           channelId: live
-
+          projectId: ${{ secrets.PROJECT_ID }}
+          target: ${{ secrets.TARGET }}
