@@ -35,5 +35,5 @@ jobs:
           repoToken: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.GOOGLE_CLOUD_KEY }}
           channelId: live
-          projectId: ${{ secrets.PROJECT_ID }}
-          target: ${{ secrets.TARGET }}
+          projectId: ${{ inputs.PROJECT_ID }}
+          target: ${{ inputs.TARGET }}
