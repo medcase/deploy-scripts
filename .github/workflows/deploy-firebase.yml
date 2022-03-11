@@ -7,8 +7,6 @@ on:
         required: true
       MEDCASE_GITHUB_TOKEN:
         required: true
-      STAGE:
-        required: false
     inputs:
       PROJECT_ID:
         required: false
@@ -16,9 +14,13 @@ on:
       TARGET:
         required: false
         type: string
+      STAGE:
+        required: false
+        type: string
+
 env:
   MEDCASE_GITHUB_TOKEN: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
-  STAGE: ${{ secrets.STAGE }}
+  STAGE: ${{ inputs.STAGE }}
 
 jobs:
   deploy:
@@ -26,7 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: yarn install
-      - run: yarn build:${{ secrets.STAGE }}
+      - run: yarn build:${{ inputs.STAGE }}
         if: "${{ env.STAGE != '' }}"
       - run: yarn build
         if: "${{ env.STAGE == '' }}"
