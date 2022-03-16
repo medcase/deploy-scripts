@@ -7,8 +7,6 @@ on:
         required: true
       AWS_SECRET_ACCESS_KEY:
         required: true
-      MEDCASE_GITHUB_TOKEN:
-        required: true
       REGION:
         required: true
 
