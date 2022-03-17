@@ -9,6 +9,8 @@ on:
         required: true
       REGION:
         required: true
+      MEDCASE_GITHUB_TOKEN:
+        required: true
 
 jobs:
   deploy:
