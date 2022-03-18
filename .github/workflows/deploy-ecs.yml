@@ -59,7 +59,7 @@ jobs:
           aws ecs update-service --cluster backend --service $SERVICE_NAME --force-new-deployment
 
   docs:
-    if: ${{params.DOCS_BUCKET}} !=null
+    if: ${{inputs.DOCS_BUCKET}} !=null
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -70,7 +70,7 @@ jobs:
         with:
           args: --follow-symlinks --delete
         env:
-          AWS_S3_BUCKET: ${{params.DOCS_BUCKET}}
+          AWS_S3_BUCKET: ${{inputs.DOCS_BUCKET}}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{secrets.REGION}}
