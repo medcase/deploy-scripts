@@ -57,10 +57,6 @@ jobs:
       - name: Force deployment
         run: |
           aws ecs update-service --cluster backend --service $SERVICE_NAME --force-new-deployment
-      - uses: actions/upload-artifact@master
-        with:
-          path: | 
-            build/docs
 
   docs:
     needs: deploy
@@ -68,7 +64,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v3
       - run: yarn install tsoa
       - run: yarn docs
 
