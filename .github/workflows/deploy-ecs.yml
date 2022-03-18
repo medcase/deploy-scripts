@@ -81,7 +81,7 @@ jobs:
       - name: invalidate
         uses: chetan/invalidate-cloudfront-action@v2
         env:
-          DISTRIBUTION: ${{secrets.DISTRIBUTION}}
+          DISTRIBUTION: ${{inputs.DISTRIBUTION}}
           PATHS: '/*'
           AWS_REGION: ${{secrets.REGION}}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
