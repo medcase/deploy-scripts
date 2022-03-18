@@ -59,6 +59,7 @@ jobs:
           aws ecs update-service --cluster backend --service $SERVICE_NAME --force-new-deployment
 
   docs:
+    needs: deploy
     if: ${{inputs.DOCS_BUCKET}} !=null
     runs-on: ubuntu-latest
     steps:
