@@ -60,7 +60,7 @@ jobs:
 
   docs:
     needs: deploy
-    if: ${{inputs.DOCS_BUCKET}} !=null
+    if: ${{inputs.DOCS_BUCKET != '' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
