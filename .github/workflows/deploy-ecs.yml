@@ -55,7 +55,7 @@ jobs:
           GIT_TAG: ${{ env.GIT_TAG }}
         run: |
           docker build --build-arg ARG_MEDCASE_GITHUB_TOKEN=$MEDCASE_GITHUB_TOKEN -t $ECR_REGISTRY/$SERVICE_NAME:$IMAGE_TAG \
-          -t $ECR_REGISTRY/$SERVICE_NAME:$(git log -1 --format=%h) . \
+          -t $ECR_REGISTRY/$SERVICE_NAME:$(git log -1 --format=%h) \
           -t $ECR_REGISTRY/$SERVICE_NAME:$GIT_TAG .
           echo "Pushing image to ECR..."
           docker push $ECR_REGISTRY/$SERVICE_NAME:$IMAGE_TAG
