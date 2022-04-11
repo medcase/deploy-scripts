@@ -50,7 +50,7 @@ jobs:
           MEDCASE_GITHUB_TOKEN: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
           IMAGE_TAG: latest
         run: |
-          docker build --build-arg ARG_MEDCASE_GITHUB_TOKEN=$MEDCASE_GITHUB_TOKEN -t $ECR_REGISTRY/$SERVICE_NAME:$IMAGE_TAG -t $ECR_REGISTRY/$SERVICE_NAME:$(git log -1 --format=%h) -t $ECR_REGISTRY/$SERVICE_NAME:$(git tag | sort -V | tail -1) .
+          docker build --build-arg ARG_MEDCASE_GITHUB_TOKEN=$MEDCASE_GITHUB_TOKEN -t $ECR_REGISTRY/$SERVICE_NAME:$IMAGE_TAG -t $ECR_REGISTRY/$SERVICE_NAME:$(git log -1 --format=%h) .
           echo "Pushing image to ECR..."
           docker push $ECR_REGISTRY/$SERVICE_NAME:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$SERVICE_NAME:$IMAGE_TAG"
