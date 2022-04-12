@@ -54,9 +54,9 @@ jobs:
           IMAGE_TAG: latest
         run: |
           docker build --build-arg ARG_MEDCASE_GITHUB_TOKEN=$MEDCASE_GITHUB_TOKEN -t $ECR_REGISTRY/$SERVICE_NAME:$IMAGE_TAG \
-          -t $ECR_REGISTRY/$SERVICE_NAME:$(git log -1 --format=%h) .
+          -t $ECR_REGISTRY/$SERVICE_NAME:$(git log -1 --format=%h) \
+          -t $ECR_REGISTRY/$SERVICE_NAME:$(git describe --tags $(git rev-list --tags --max-count=1)) .
           echo "Pushing image to ECR..."
-          echo $(git describe --tags $(git rev-list --tags --max-count=1))
           docker push $ECR_REGISTRY/$SERVICE_NAME:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$SERVICE_NAME:$IMAGE_TAG"
       - name: Force deployment
