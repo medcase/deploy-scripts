@@ -52,7 +52,7 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           MEDCASE_GITHUB_TOKEN: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
           IMAGE_TAG: latest
-          GIT_TAG: ${{ env.GIT_TAG }}
+          GIT_TAG: ${{ git describe --tags $(git rev-list --tags --max-count=1) }}
         run: |
           docker build --build-arg ARG_MEDCASE_GITHUB_TOKEN=$MEDCASE_GITHUB_TOKEN -t $ECR_REGISTRY/$SERVICE_NAME:$IMAGE_TAG \
           -t $ECR_REGISTRY/$SERVICE_NAME:$(git log -1 --format=%h) \
