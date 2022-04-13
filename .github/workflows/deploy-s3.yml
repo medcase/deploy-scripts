@@ -21,6 +21,10 @@ on:
       EXCLUDE:
         required: false
         type: string
+      SOURCE_DIR:
+        required: false
+        type: string
+        default: 'build'
 env:
   MEDCASE_GITHUB_TOKEN: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
 
@@ -41,7 +45,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.REGION }}
-          SOURCE_DIR: 'build'
+          SOURCE_DIR: ${{ inputs.SOURCE_DIR }}
       - name: invalidate
         uses: chetan/invalidate-cloudfront-action@v2
         env:
