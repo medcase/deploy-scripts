@@ -21,6 +21,7 @@ on:
 env:
   MEDCASE_GITHUB_TOKEN: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
   SERVICE_NAME: ${{ secrets.SERVICE_NAME }}
+  DOCS_BUCKET: ${{ secrets.DOCS_BUCKET }}
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -57,7 +58,7 @@ jobs:
 
   docs:
     needs: deploy
-    if: ${{secrets.DOCS_BUCKET != '' }}
+    if: ${{ $DOCS_BUCKET != '' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
