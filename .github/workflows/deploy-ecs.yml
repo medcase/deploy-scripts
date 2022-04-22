@@ -15,10 +15,8 @@ on:
         required: true
       DOCS_BUCKET:
         required: false
-        type: string
       DISTRIBUTION:
         required: false
-        type: string
 
 env:
   MEDCASE_GITHUB_TOKEN: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
