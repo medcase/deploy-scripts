@@ -59,7 +59,7 @@ jobs:
     env:
       DOCS_BUCKET: ${{ secrets.DOCS_BUCKET }}
     needs: deploy
-    if: ${{ env.DOCS_BUCKET }} != ''
+    if: $DOCS_BUCKET != ''
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
