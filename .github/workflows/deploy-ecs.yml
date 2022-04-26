@@ -13,13 +13,10 @@ on:
         required: true
       REGION:
         required: true
-    inputs:
       DOCS_BUCKET:
         required: false
-        type: string
       DISTRIBUTION:
         required: false
-        type: string
 
 env:
   MEDCASE_GITHUB_TOKEN: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
@@ -59,8 +56,10 @@ jobs:
           aws ecs update-service --cluster backend --service $SERVICE_NAME --force-new-deployment
 
   docs:
+    env:
+      DOCS_BUCKET: ${{ secrets.DOCS_BUCKET }}
     needs: deploy
-    if: ${{inputs.DOCS_BUCKET != '' }}
+    if: $DOCS_BUCKET != ''
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -72,7 +71,7 @@ jobs:
         with:
           args: --follow-symlinks
         env:
-          AWS_S3_BUCKET: ${{inputs.DOCS_BUCKET}}
+          AWS_S3_BUCKET: ${{secrets.DOCS_BUCKET}}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{secrets.REGION}}
@@ -81,7 +80,7 @@ jobs:
       - name: invalidate
         uses: chetan/invalidate-cloudfront-action@v2
         env:
-          DISTRIBUTION: ${{inputs.DISTRIBUTION}}
+          DISTRIBUTION: ${{secrets.DISTRIBUTION}}
           PATHS: '/*'
           AWS_REGION: ${{secrets.REGION}}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
