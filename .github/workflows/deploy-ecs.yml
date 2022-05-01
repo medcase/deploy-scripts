@@ -51,9 +51,9 @@ jobs:
 
       - name: Get commit short hash
         id: get-short-sha
-          run: |
-            short=$(echo ${{inputs.COMMIT_HASH}} | rev | cut -c34- | rev)
-            echo "::set-output name=short::$short"
+        run: |
+          short=$(echo ${{inputs.COMMIT_HASH}} | rev | cut -c34- | rev)
+          echo "::set-output name=short::$short"
 
       - name: Build, tag, and push the image to Amazon ECR
         id: build-image
