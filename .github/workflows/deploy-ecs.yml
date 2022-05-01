@@ -20,6 +20,12 @@ on:
       DISTRIBUTION:
         required: false
         type: string
+      COMMIT_HASH:
+        type: string
+        required: true
+      GIT_TAG:
+        type: string
+        required: true
 
 env:
   MEDCASE_GITHUB_TOKEN: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
@@ -43,12 +49,18 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      - name: Get commit short hash
+        id: get-short-sha
+          run: |
+            short=$(echo ${{inputs.COMMIT_HASH}} | rev | cut -c34- | rev)
+            echo "::set-output name=short::$short"
+
       - name: Build, tag, and push the image to Amazon ECR
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           MEDCASE_GITHUB_TOKEN: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
-          IMAGE_TAG: latest
+          IMAGE_TAG: latest_${{steps.get-short-sha.outputs.short}}_${{inputs.GIT_TAG}}
         run: |
           docker build --build-arg ARG_MEDCASE_GITHUB_TOKEN=$MEDCASE_GITHUB_TOKEN -t $ECR_REGISTRY/$SERVICE_NAME:$IMAGE_TAG .
           echo "Pushing image to ECR..."
