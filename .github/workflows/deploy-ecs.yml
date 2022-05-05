@@ -63,7 +63,7 @@ jobs:
           IMAGE_TAG: latest
           COMMIT_SHORT_HASH: ${{steps.get-short-sha.outputs.short}}
         run: |
-          docker build --build-arg ARG_MEDCASE_GITHUB_TOKEN=$MEDCASE_GITHUB_TOKEN -t $ECR_REGISTRY/$SERVICE_NAME:$IMAGE_TAG -t $ECR_REGISTRY/$SERVICE_NAME:$COMMIT_SHORT_HASH -t $ECR_REGISTRY/$SERVICE_NAME:${{inputs.GIT_TAG}}.
+          docker build --build-arg ARG_MEDCASE_GITHUB_TOKEN=$MEDCASE_GITHUB_TOKEN -t $ECR_REGISTRY/$SERVICE_NAME:$IMAGE_TAG -t $ECR_REGISTRY/$SERVICE_NAME:$COMMIT_SHORT_HASH -t $ECR_REGISTRY/$SERVICE_NAME:${{inputs.GIT_TAG}} .
           echo "Pushing image to ECR..."
           docker push $ECR_REGISTRY/$SERVICE_NAME --all-tags
           echo "::set-output name=image::$ECR_REGISTRY/$SERVICE_NAME:$IMAGE_TAG:$COMMIT_SHORT_HASH:${{inputs.GIT_TAG}}"
