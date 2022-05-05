@@ -20,6 +20,12 @@ on:
       DISTRIBUTION:
         required: false
         type: string
+      COMMIT_HASH:
+        type: string
+        required: true
+      GIT_TAG:
+        type: string
+        required: true
 
 env:
   MEDCASE_GITHUB_TOKEN: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
@@ -43,17 +49,24 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      - name: Get commit short hash
+        id: get-short-sha
+        run: |
+          short=$(echo ${{inputs.COMMIT_HASH}} | rev | cut -c34- | rev)
+          echo "::set-output name=short::$short"
+
       - name: Build, tag, and push the image to Amazon ECR
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           MEDCASE_GITHUB_TOKEN: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
           IMAGE_TAG: latest
+          COMMIT_SHORT_HASH: ${{steps.get-short-sha.outputs.short}}
         run: |
-          docker build --build-arg ARG_MEDCASE_GITHUB_TOKEN=$MEDCASE_GITHUB_TOKEN -t $ECR_REGISTRY/$SERVICE_NAME:$IMAGE_TAG .
+          docker build --build-arg ARG_MEDCASE_GITHUB_TOKEN=$MEDCASE_GITHUB_TOKEN -t $ECR_REGISTRY/$SERVICE_NAME:$IMAGE_TAG -t $ECR_REGISTRY/$SERVICE_NAME:$COMMIT_SHORT_HASH -t $ECR_REGISTRY/$SERVICE_NAME:${{inputs.GIT_TAG}} .
           echo "Pushing image to ECR..."
-          docker push $ECR_REGISTRY/$SERVICE_NAME:$IMAGE_TAG
-          echo "::set-output name=image::$ECR_REGISTRY/$SERVICE_NAME:$IMAGE_TAG"
+          docker push $ECR_REGISTRY/$SERVICE_NAME --all-tags
+          echo "::set-output name=image::$ECR_REGISTRY/$SERVICE_NAME:$IMAGE_TAG:$COMMIT_SHORT_HASH:${{inputs.GIT_TAG}}"
       - name: Force deployment
         run: |
           aws ecs update-service --cluster backend --service $SERVICE_NAME --force-new-deployment
