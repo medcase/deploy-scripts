@@ -11,6 +11,9 @@ on:
       PROJECT_ID:
         required: true
         type: string
+      STAGE:
+        required: false
+        type: string
 env:
   MEDCASE_GITHUB_TOKEN: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
 
@@ -22,11 +25,11 @@ jobs:
       id-token: 'write'
     steps:
       - uses: actions/checkout@v2
-      - run: cp .npmrc .npmrc.temp
-      - uses: danielr1996/envsubst-action@1.0.0
-        with:
-          input: .npmrc.temp
-          output: .npmrc
+      - run: yarn install
+      - run: yarn build:${{ inputs.STAGE }}
+        if: "${{ env.STAGE != '' }}"
+      - run: yarn build
+        if: "${{ env.STAGE == '' }}"
       - id: 'auth'
         uses: 'google-github-actions/auth@v0'
         with:
