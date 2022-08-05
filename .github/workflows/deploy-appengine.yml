@@ -14,6 +14,10 @@ on:
       STAGE:
         required: false
         type: string
+      USE_NPMRC:
+        required: false
+        type: string
+        default: 'true'
 env:
   MEDCASE_GITHUB_TOKEN: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
 
@@ -25,6 +29,13 @@ jobs:
       id-token: 'write'
     steps:
       - uses: actions/checkout@v2
+      - run: cp .npmrc .npmrc.temp
+        if: "${{ env.USE_NPMRC == 'true' }}"
+      - uses: danielr1996/envsubst-action@1.0.0
+        if: "${{ env.USE_NPMRC == 'true' }}"
+        with:
+          input: .npmrc.temp
+          output: .npmrc
       - run: yarn install
       - run: yarn build:${{ inputs.STAGE }}
         if: "${{ env.STAGE != '' }}"
