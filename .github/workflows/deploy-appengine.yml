@@ -37,11 +37,10 @@ jobs:
           input: .npmrc.temp
           output: .npmrc
       - run: yarn install
-        if: "${{ env.USE_NPMRC != 'true' }}"
       - run: yarn build:${{ inputs.STAGE }}
-        if: "${{ env.STAGE != '' && env.USE_NPMRC != 'true' }}"
+        if: "${{ env.STAGE != '' }}"
       - run: yarn build
-        if: "${{ env.STAGE == '' && env.USE_NPMRC != 'true' }}"
+        if: "${{ env.STAGE == '' }}"
       - id: 'auth'
         uses: 'google-github-actions/auth@v0'
         with:
