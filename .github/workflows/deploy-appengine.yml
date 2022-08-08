@@ -37,6 +37,7 @@ jobs:
           input: .npmrc.temp
           output: .npmrc
       - run: yarn install
+        if: "${{ inputs.STAGE != '' }}"
       - run: yarn build:${{ inputs.STAGE }}
         if: "${{ inputs.STAGE != '' }}"
       - run: yarn build
