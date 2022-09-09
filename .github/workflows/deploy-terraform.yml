@@ -16,6 +16,9 @@ on:
       configFile:
         required: true
         type: string
+      ENVIRONMENT:
+        type: string
+        required: false
 
 env:
   tf_version: 'latest'
@@ -29,6 +32,7 @@ env:
 jobs:
   terragrunt:
     name: 'Terragrunt Apply'
+    environment: ${{ inputs.ENVIRONMENT }}
     runs-on: ubuntu-latest
     steps:
       - name: 'checkout'
