@@ -26,12 +26,16 @@ on:
       GIT_TAG:
         type: string
         required: true
+      ENVIRONMENT:
+        type: string
+        required: false
 
 env:
   MEDCASE_GITHUB_TOKEN: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
   SERVICE_NAME: ${{ secrets.SERVICE_NAME }}
 jobs:
   deploy:
+    environment: ${{ inputs.ENVIRONMENT }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
