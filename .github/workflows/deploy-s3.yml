@@ -17,6 +17,8 @@ on:
         required: true
       STAGE:
         required: true
+      REACT_APP_MONDAY_API_TOKEN:
+        required: false
     inputs:
       EXCLUDE:
         required: false
@@ -24,9 +26,10 @@ on:
       SOURCE_DIR:
         required: false
         type: string
-        default: 'build'
+        default: "build"
 env:
   MEDCASE_GITHUB_TOKEN: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
+  REACT_APP_MONDAY_API_TOKEN: ${{ secrets.REACT_APP_MONDAY_API_TOKEN }}
 
 jobs:
   deploy:
@@ -50,7 +53,7 @@ jobs:
         uses: chetan/invalidate-cloudfront-action@v2
         env:
           DISTRIBUTION: ${{ secrets.CLOUDFRONT_DISTRIBUTION }}
-          PATHS: '/*'
+          PATHS: "/*"
           AWS_REGION: ${{ secrets.REGION }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
