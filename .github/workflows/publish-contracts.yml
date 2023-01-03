@@ -1,0 +1,19 @@
+name: Publish contracts
+
+on:
+  workflow_call:
+    secrets:
+      MEDCASE_GITHUB_TOKEN:
+        required: true
+
+env:
+  MEDCASE_GITHUB_TOKEN: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: yarn install
+      - run: yarn test:contract
+      - run: yarn --cwd contracts publish
