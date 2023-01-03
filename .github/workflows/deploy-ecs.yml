@@ -110,11 +110,10 @@ jobs:
           AWS_REGION: ${{secrets.REGION}}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
   contracts:
     needs: deploy
+    if: ${{env.BROKER_URL != null &&  env.BROKER_TOKEN != null}}
     runs-on: ubuntu-latest
-    if: env.BROKER_URL != null &&  env.BROKER_TOKEN != null
     steps:
       - uses: actions/checkout@v3
       - run: yarn install
