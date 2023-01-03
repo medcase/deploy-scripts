@@ -114,7 +114,7 @@ jobs:
   contracts:
     needs: deploy
     runs-on: ubuntu-latest
-    if: ${{secrets.BROKER_URL != '' &&  secrets.BROKER_TOKEN != ''}}
+    if: env.BROKER_URL != null &&  env.BROKER_TOKEN != null
     steps:
       - uses: actions/checkout@v3
       - run: yarn install
