@@ -13,6 +13,10 @@ on:
         required: true
       REGION:
         required: true
+      BROKER_URL:
+        required: false
+      BROKER_TOKEN:
+        required: false
     inputs:
       DOCS_BUCKET:
         required: false
@@ -33,6 +37,9 @@ on:
 env:
   MEDCASE_GITHUB_TOKEN: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
   SERVICE_NAME: ${{ secrets.SERVICE_NAME }}
+  BROKER_URL: ${{ secrets.BROKER_URL }}
+  BROKER_TOKEN: ${{ secrets.BROKER_TOKEN }}
+  ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
 jobs:
   deploy:
     environment: ${{ inputs.ENVIRONMENT }}
@@ -103,3 +110,13 @@ jobs:
           AWS_REGION: ${{secrets.REGION}}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  contracts:
+    needs: deploy
+    runs-on: ubuntu-latest
+    if: ${{secrets.BROKER_URL != '' &&  secrets.BROKER_TOKEN != ''}}
+    steps:
+      - uses: actions/checkout@v3
+      - run: yarn install
+      - run: yarn test:contract
+      - run: yarn contract:publish
