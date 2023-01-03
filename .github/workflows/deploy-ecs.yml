@@ -39,6 +39,7 @@ env:
   SERVICE_NAME: ${{ secrets.SERVICE_NAME }}
   BROKER_URL: ${{ secrets.BROKER_URL }}
   BROKER_TOKEN: ${{ secrets.BROKER_TOKEN }}
+  ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
 jobs:
   deploy:
     environment: ${{ inputs.ENVIRONMENT }}
