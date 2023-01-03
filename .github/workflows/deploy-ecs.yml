@@ -112,7 +112,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   contracts:
     needs: deploy
-    if: ${{env.BROKER_URL != null &&  env.BROKER_TOKEN != null}}
+    if: ${{env.BROKER_URL != '' && env.BROKER_TOKEN != ''}}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
