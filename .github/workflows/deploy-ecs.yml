@@ -33,6 +33,9 @@ on:
       ENVIRONMENT:
         type: string
         required: false
+      PUBLISH_CONTRACTS:
+        type: boolean
+        required: false
 
 env:
   MEDCASE_GITHUB_TOKEN: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
@@ -112,7 +115,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   contracts:
     needs: deploy
-    if: ${{env.BROKER_URL != null &&  env.BROKER_TOKEN != null}}
+    if: ${{inputs.PUBLISH_CONTRACTS == true}}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
