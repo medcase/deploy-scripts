@@ -34,7 +34,7 @@ on:
         type: string
         required: false
       PUBLISH_CONTRACTS:
-        type: bool
+        type: boolean
         required: false
 
 env:
