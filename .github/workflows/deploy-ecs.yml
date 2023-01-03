@@ -111,15 +111,15 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   contracts:
-    needs: deploy
-    if: ${{env.BROKER_URL != '' && env.BROKER_TOKEN != ''}}
-    runs-on: ubuntu-latest
     env:
       MEDCASE_GITHUB_TOKEN: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
       SERVICE_NAME: ${{ secrets.SERVICE_NAME }}
       BROKER_URL: ${{ secrets.BROKER_URL }}
       BROKER_TOKEN: ${{ secrets.BROKER_TOKEN }}
       ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
+    needs: deploy
+    if: ${{env.BROKER_URL != '' && env.BROKER_TOKEN != ''}}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - run: yarn install
