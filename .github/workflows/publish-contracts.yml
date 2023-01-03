@@ -5,9 +5,20 @@ on:
     secrets:
       MEDCASE_GITHUB_TOKEN:
         required: true
+      BROKER_URL:
+        required: true
+      BROKER_TOKEN:
+        required: true
+    inputs:
+      ENV:
+        required: true
+        type: string
 
 env:
   MEDCASE_GITHUB_TOKEN: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
+  BROKER_URL: ${{ secrets.BROKER_URL }}
+  BROKER_TOKEN: ${{ secrets.BROKER_TOKEN }}
+  ENV: ${{ inputs.ENV }}
 
 jobs:
   publish:
@@ -16,4 +27,4 @@ jobs:
       - uses: actions/checkout@v3
       - run: yarn install
       - run: yarn test:contract
-      - run: yarn --cwd contracts publish
+      - run: yarn contract:publish
