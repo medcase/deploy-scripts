@@ -43,6 +43,7 @@ env:
   BROKER_URL: ${{ secrets.BROKER_URL }}
   BROKER_TOKEN: ${{ secrets.BROKER_TOKEN }}
   ENVIRONMENT: ${{ inputs.ENVIRONMENT }}
+  GIT_TAG: ${{ inputs.GIT_TAG }}
 jobs:
   deploy:
     environment: ${{ inputs.ENVIRONMENT }}
