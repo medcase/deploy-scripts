@@ -45,7 +45,7 @@ env:
   ENVIRONMENT: ${{ inputs.ENVIRONMENT }}
   GIT_TAG: ${{ inputs.GIT_TAG }}
 jobs:
-  needs: [tests]
+  needs: tests
   deploy:
     environment: ${{ inputs.ENVIRONMENT }}
     runs-on: ubuntu-latest
