@@ -44,6 +44,7 @@ env:
   BROKER_TOKEN: ${{ secrets.BROKER_TOKEN }}
   ENVIRONMENT: ${{ inputs.ENVIRONMENT }}
   GIT_TAG: ${{ inputs.GIT_TAG }}
+  PUBLISH_CONTRACT_VERIFICATION_RESULTS: true
 jobs:
   deploy:
     environment: ${{ inputs.ENVIRONMENT }}
@@ -51,6 +52,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: yarn install
+      - run: yarn test
       - run: yarn build
 
       - name: Configure AWS credentials

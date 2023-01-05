@@ -1,0 +1,46 @@
+name: test
+
+on:
+  workflow_call:
+    secrets:
+      MEDCASE_GITHUB_TOKEN:
+        required: true
+      BROKER_TOKEN:
+        required: false
+      BROKER_URL:
+        required: false
+    inputs:
+      ENVIRONMENT:
+        required: false
+        type: string
+      GIT_TAG:
+        type: string
+        required: true
+
+
+env:
+  MEDCASE_GITHUB_TOKEN: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
+  ENVIRONMENT: ${{inputs.ENVIRONMENT}}
+  BROKER_TOKEN: ${{secrets.BROKER_TOKEN}}
+  BROKER_URL: ${{secrets.BROKER_URL}}
+  GIT_TAG: ${{ inputs.GIT_TAG }}
+  NODE_ENV: test
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      mongodb:
+        image: mongo
+        ports:
+          - 27017:27017
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: yarn install
+      - run: yarn lint
+      - run: yarn test
+      - run: yarn build
+      - run: yarn docs
