@@ -49,15 +49,10 @@ jobs:
   deploy:
     environment: ${{ inputs.ENVIRONMENT }}
     runs-on: ubuntu-latest
-    services:
-      mongodb:
-        image: mongo
-        ports:
-          - 27017:27017
     steps:
       - uses: actions/checkout@v3
       - run: yarn install
-      - run: yarn test
+      - run: yarn test:contract
       - run: yarn build
 
       - name: Configure AWS credentials
