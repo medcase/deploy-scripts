@@ -23,7 +23,7 @@ env:
   ENVIRONMENT: ${{inputs.ENVIRONMENT}}
   BROKER_TOKEN: ${{secrets.BROKER_TOKEN}}
   BROKER_URL: ${{secrets.BROKER_URL}}
-  GIT_TAG: ${{ secrets.GIT_TAG }}
+  GIT_TAG: ${{ inputs.GIT_TAG }}
   NODE_ENV: test
 
 jobs:
