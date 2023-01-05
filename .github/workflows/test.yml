@@ -39,7 +39,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-      - run: echo $GIT_TAG
       - run: yarn install
       - run: yarn lint
       - run: yarn test
