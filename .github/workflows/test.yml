@@ -24,6 +24,7 @@ env:
   BROKER_TOKEN: ${{secrets.BROKER_TOKEN}}
   BROKER_URL: ${{secrets.BROKER_URL}}
   GIT_TAG: ${{ secrets.ref_name }}
+  NODE_ENV: test
 
 jobs:
   test:
