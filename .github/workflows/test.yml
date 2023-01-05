@@ -9,12 +9,12 @@ on:
         required: false
       BROKER_URL:
         required: false
-      GIT_TAG:
-        required: true
     inputs:
       ENVIRONMENT:
         required: false
         type: string
+      GIT_TAG:
+        required: true
 
 
 env:
