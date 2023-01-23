@@ -25,6 +25,7 @@ env:
   BROKER_URL: ${{secrets.BROKER_URL}}
   GIT_TAG: ${{ inputs.GIT_TAG }}
   NODE_ENV: test
+  NODE_OPTIONS: "--max_old_space_size=4096"
 
 jobs:
   test:
