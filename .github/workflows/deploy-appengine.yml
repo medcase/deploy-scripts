@@ -11,6 +11,13 @@ on:
       PROJECT_ID:
         required: true
         type: string
+      STAGE:
+        required: false
+        type: string
+      USE_NPMRC:
+        required: false
+        type: string
+        default: 'true'
 env:
   MEDCASE_GITHUB_TOKEN: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
 
@@ -23,10 +30,18 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: cp .npmrc .npmrc.temp
+        if: "${{ inputs.USE_NPMRC == 'true' }}"
       - uses: danielr1996/envsubst-action@1.0.0
+        if: "${{ inputs.USE_NPMRC == 'true' }}"
         with:
           input: .npmrc.temp
           output: .npmrc
+      - run: yarn install
+        if: "${{ inputs.STAGE != '' }}"
+      - run: yarn build:${{ inputs.STAGE }}
+        if: "${{ inputs.STAGE != '' }}"
+      - run: yarn build
+        if: "${{ inputs.STAGE == '' }}"
       - id: 'auth'
         uses: 'google-github-actions/auth@v0'
         with:
