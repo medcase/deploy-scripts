@@ -36,6 +36,9 @@ on:
       PUBLISH_CONTRACTS:
         type: boolean
         required: false
+      API_HOST:
+        required: false
+        type: string
 
 env:
   MEDCASE_GITHUB_TOKEN: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
@@ -44,6 +47,7 @@ env:
   BROKER_TOKEN: ${{ secrets.BROKER_TOKEN }}
   ENVIRONMENT: ${{ inputs.ENVIRONMENT }}
   GIT_TAG: ${{ inputs.GIT_TAG }}
+  API_HOST: ${{ inputs.API_HOST }}
   PUBLISH_CONTRACT_VERIFICATION_RESULTS: true
 jobs:
   deploy:
