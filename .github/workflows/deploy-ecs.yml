@@ -39,6 +39,9 @@ on:
       API_HOST:
         required: false
         type: string
+      ECS_CLUSTER_NAME:
+        required: false
+        type: string
 
 env:
   MEDCASE_GITHUB_TOKEN: ${{ secrets.MEDCASE_GITHUB_TOKEN }}
@@ -49,6 +52,7 @@ env:
   GIT_TAG: ${{ inputs.GIT_TAG }}
   API_HOST: ${{ inputs.API_HOST }}
   PUBLISH_CONTRACT_VERIFICATION_RESULTS: true
+  ECS_CLUSTER_NAME: ${{ ECS_CLUSTER_NAME:-backend }}
 jobs:
   deploy:
     environment: ${{ inputs.ENVIRONMENT }}
@@ -90,7 +94,7 @@ jobs:
           echo "::set-output name=image::$ECR_REGISTRY/$SERVICE_NAME:$IMAGE_TAG:$COMMIT_SHORT_HASH:${{inputs.GIT_TAG}}"
       - name: Force deployment
         run: |
-          aws ecs update-service --cluster backend --service $SERVICE_NAME --force-new-deployment
+          aws ecs update-service --cluster $ECS_CLUSTER_NAME --service $SERVICE_NAME --force-new-deployment
 
   docs:
     needs: deploy
