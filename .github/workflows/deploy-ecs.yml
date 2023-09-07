@@ -52,7 +52,7 @@ env:
   GIT_TAG: ${{ inputs.GIT_TAG }}
   API_HOST: ${{ inputs.API_HOST }}
   PUBLISH_CONTRACT_VERIFICATION_RESULTS: true
-  ECS_CLUSTER_NAME: ${{ ECS_CLUSTER_NAME:-backend }}
+  ECS_CLUSTER_NAME: ${{ inputs.ECS_CLUSTER_NAME || 'backend' }}
 jobs:
   deploy:
     environment: ${{ inputs.ENVIRONMENT }}
